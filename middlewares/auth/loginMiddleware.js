@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 
 const verify = (password, hash) => {
-    const hash_ = crypto.pbkdf2Sync(password, (process.env.PASSWORD_HASH_SALT).toString('base64'), 90194, 64, 'sha512').toString('base64');
+    const hash_ = crypto.pbkdf2Sync(password, (process.env.PASSWORD_HASH_SALT).toString('base64'), parseInt(process.env.PASSWORD_HASH_ITER), 64, 'sha512').toString('base64');
     return hash_ === hash;
 }
 
@@ -14,8 +14,8 @@ const loginMiddleware = (req, res, next) => {
     const isstudent = req.body.isStudent;
 
     const check = (data) => {
-        if (data == null) {
-            res.json({ msg: "No such Id or password", success: false });
+        if (data === null) {
+            return res.json({ msg: 'No such Id or password', success: false });
         } else {
             if (verify(userpassword.toString('base64')), data.userPassword.toString('base64')) {
                 return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ const loginMiddleware = (req, res, next) => {
                         })
                 })
             } else {
-                res.json({
+                return res.json({
                     msg: "Login failed",
                     success: false
                 })
@@ -50,10 +50,7 @@ const loginMiddleware = (req, res, next) => {
     }
 
     const onError = (err) => {
-        return res.json({
-            msg: err.message,
-            success: false
-        })
+        throw err;
     }
 
 

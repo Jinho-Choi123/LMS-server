@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
+const classRouter = require('./routes/class');
 
 const PORT = 8080;
 
@@ -14,7 +15,11 @@ const db = require('./db/db');
 const dotenv = require('dotenv');
 dotenv.config({ path: '/home/ubuntu/LMS-Server/.env' });
 
+const cors = require('cors');
 var app = express();
+
+//allow cors
+app.use(cors());
 
 //connect to db
 db();
@@ -32,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/class', classRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
