@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const dotenv = require('dotenv');
 
 const registerMiddleware = (req, res, next) => {
-    console.log(req.body);
     const userid = req.body.userId;
     const userpassword = req.body.userPassword;
     const isstudent = req.body.isStudent;
