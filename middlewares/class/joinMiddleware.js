@@ -1,6 +1,7 @@
 const Class = require('../../db/models/Class');
 const crypto = require('crypto');
 const dotenv = require('dotenv');
+const User = require('../../db/models/User')
 
 const verify = (password, hash) => {
     const hash_ = crypto.pbkdf2Sync(password, (process.env.JOIN_PASSWORD_HASH_SALT).toString('base64'), parseInt(process.env.JOIN_PASSWORD_HASH_ITER), 64, 'sha512').toString('base64');
@@ -17,12 +18,19 @@ const joinMiddleware = (req, res, next) => {
             return res.json({ msg: "No such class or already registered", success: false });
         } else {
             if (verify(joinpassword.toString('base64'), data.joinPassword.toString('base64'))) {
-                Class.updateOne({ className: classname, classId: data.classId }, { $push: { students: userid } }, (err, data) => {
+                Class.updateOne({ className: classname, classId: data.classId }, { $push: { students: userid } }, (err, data2) => {
                     if (err) throw err;
-                    else res.json({
-                        msg: "Joined class",
-                        success: true
-                    })
+                    else {
+                        //update userSchema
+                        User.updateOne({ userId: userid }, { $push: { lectureIn: data.classId } })
+                            .then((data3) => {
+                                res.json({
+                                    msg: "Joined class",
+                                    success: true
+                                })
+                            })
+                            .catch((err) => { throw err; })
+                    }
                 })
             } else {
                 res.json({

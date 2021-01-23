@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 
 const createMiddleware = (req, res, next) => {
     const instructor = req.body.userId;
+    console.log(req)
 
     const makeid = (length) => {
         var result = '';
