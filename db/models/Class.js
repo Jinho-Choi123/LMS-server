@@ -46,8 +46,16 @@ const classSchema = new mongoose.Schema({
     notices: { type: [noticeSchema] },
     lectureContents: { type: [lectureContentSchema] },
     assignments: { type: [assignmentSchema] }
-
 })
+
+classSchema.methods.submitAssignment = (info) => {
+    this.assignments.push({
+        userId: info.userId,
+        fileName: info.fileName,
+        lastSubmitTime: info.lastSubmitTime
+    })
+    return this.save();
+}
 
 module.exports = mongoose.model('Lecturecontent', lectureContentSchema);
 

@@ -8,8 +8,8 @@ const Class = require('../db/models/Class');
 let storage = multer.diskStorage({
     destination: (req, file, callback) => {
         const classid = req.query.classId;
-        fs.mkdirSync(`${__dirname}/../public/${classid}/lecturematerial`, { recursive: true });
-        callback(null, `${__dirname}/../public/${classid}/lecturematerial`);
+        fs.mkdirSync(`${__dirname}/../public/${classid}/lecturematerial/`, { recursive: true });
+        callback(null, `${__dirname}/../public/${classid}/lecturematerial/`);
     },
     filename: (req, file, callback) => {
         let extension = path.extname(file.originalname);
@@ -17,7 +17,7 @@ let storage = multer.diskStorage({
         // store data in DB
         const lecturedate = req.query.lectureDate;
         //const lecturedate = new Date();
-        const storepath = `${__dirname}/../public/${req.query.classId}/lecturematerial`;
+        const storepath = `${__dirname}/../public/${req.query.classId}/lecturematerial/`;
         const filename = basename + extension;
         const storename = basename + "-" + Date.now() + extension;
         const lecturecontent = {
@@ -46,6 +46,7 @@ const downloadMiddleware = require('../middlewares/class/lectureMaterials/downlo
 const deleteContentMiddleware = require('../middlewares/class/lectureMaterials/deleteMiddleware');
 const createAssignmentMiddleware = require('../middlewares/class/assignment/createMiddleware');
 const submitAssignmentMiddleware = require('../middlewares/class/assignment/submitMiddleware');
+const submitAssignmentRespondMiddleware = require('../middlewares/class/assignment/submitRespondMiddleware');
 
 router.post('/create', checkIsProf, createMiddleware);
 
@@ -59,6 +60,6 @@ router.post('/deletecontent', checkIsProf, deleteContentMiddleware);
 
 router.post('/assignment/create', checkIsProf, createAssignmentMiddleware);
 
-router.post('/assignment/submit', checkIsStudent, submitAssignmentMiddleware);
+router.post('/assignment/submit', checkIsStudent, submitAssignmentMiddleware, submitAssignmentRespondMiddleware);
 
 module.exports = router;

@@ -20,27 +20,33 @@ let storage = multer.diskStorage({
         const userid = req.body.userId;
 
         let today = new Date();
-        const lastsubmittime = today.getFullYear().toString() + today.getMonth().toString() + today.getTime().toString();
 
         const submit = {
             userId: userid,
             fileName: filename,
-            lastSubmitTime: lastsubmittime
+            lastSubmitTime: today
         }
 
-        Class.updateOne({ classId: req.query.classId }, { $push: { submitStatus: submit } })
-            .then(
+        // Class.updateOne({ classId: req.query.classId }, { $push: assignments.${ submitStatus: submit } })
+        //     .then(
 
-                callback(null, storename)
+        //         callback(null, storename)
 
-            )
-            .catch(
-                res.json({
-                    success: false,
-                    msg: "Submit failed. Plz try again"
-                })
-            )
+        //     )
+        //     .catch(
+        //         (err) => {
+        //             throw err;
+        //         }
+        //     )
 
+        Class.findOneAndUpdate({ classId: classid }, {
+                $push: { submitStatus: submit }
+            }, {
+                new: true,
+                select: assignments
+            })
+            .then(callback(null, storename))
+            .catch((err) => { throw err; })
     }
 })
 
@@ -49,10 +55,5 @@ let upload = multer({
 })
 
 const submitMiddleware = upload.fields({ name: 'assignment' });
-const submit2Middleware = (req, res, next) => {
-    res.json({
-        msg: "Submit success"
-    })
-}
 
 module.exports = submitMiddleware;
