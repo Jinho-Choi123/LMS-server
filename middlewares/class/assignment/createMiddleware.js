@@ -1,4 +1,5 @@
 const Class = require('../../../db/models/Class');
+const Assignment = require('../../../db/models/Assignment');
 
 const createMiddleware = (req, res, next) => {
     const assignmentname = req.body.assignmentName;
@@ -18,11 +19,11 @@ const createMiddleware = (req, res, next) => {
     }
 
     let today = new Date();
-    const assignmentid = today.getFullYear().toString() + today.getMonth().toString() + today.getTime().toString() + makeid(20);
+    const assignmentid = today.getFullYear().toString() + today.getMonth().toString() + today.getTime().toString() + makeid(30);
 
     const submitpath = `${__dirname}/../../../public/classid/assignment/${assignmentid}`;
 
-    const assignment = {
+    const assignment = new Assignment({
         assignmentId: assignmentid,
         assignmentName: assignmentname,
         openTime: opentime,
@@ -30,15 +31,23 @@ const createMiddleware = (req, res, next) => {
         submitPath: submitpath,
         submitStatus: [],
         instruction: instruction
-    }
-
-    Class.updateOne({ classId: classid }, { $push: { assignments: assignment } })
+    })
+    Class.updateOne({ classId: classid }, { $push: { assignments: assignmentid } })
         .then((data) => {
             console.log(data);
-            res.json({
-                msg: "Add Assignment success",
-                success: true
-            })
+            assignment.save()
+                .then((data) => {
+                    res.json({
+                        msg: "Add Assignment success",
+                        success: true
+                    })
+                })
+                .catch((err) => {
+                    res.json({
+                        msg: err.message,
+                        success: false
+                    })
+                })
         })
         .catch((err) => {
             res.json({

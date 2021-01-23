@@ -19,22 +19,6 @@ const quizScema = new mongoose.Schema({
     endTime: { type: Date, required: true }
 })
 
-const submitSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
-    fileName: { type: String, required: true },
-    lastSubmitTime: { type: Date, required: true }
-})
-
-const assignmentSchema = new mongoose.Schema({
-    assignmentId: { type: String, required: true },
-    assignmentName: { type: String, required: true },
-    openTime: { type: Date, required: true },
-    endTime: { type: Date, required: true },
-    submitPath: { type: String, required: true },
-    submitStatus: { type: [submitSchema], required: true },
-    instruction: { type: String, required: true }
-})
-
 
 const classSchema = new mongoose.Schema({
     instructor: { type: String, required: true },
@@ -45,17 +29,8 @@ const classSchema = new mongoose.Schema({
     lectureDates: { type: [Date], required: true },
     notices: { type: [noticeSchema] },
     lectureContents: { type: [lectureContentSchema] },
-    assignments: { type: [assignmentSchema] }
+    assignments: { type: [String], required: true } // store array of assignment ids
 })
-
-classSchema.methods.submitAssignment = (info) => {
-    this.assignments.push({
-        userId: info.userId,
-        fileName: info.fileName,
-        lastSubmitTime: info.lastSubmitTime
-    })
-    return this.save();
-}
 
 module.exports = mongoose.model('Lecturecontent', lectureContentSchema);
 

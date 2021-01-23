@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const Class = require('../db/models/Class');
 
-let storage = multer.diskStorage({
+let lectureMaterialStorage = multer.diskStorage({
     destination: (req, file, callback) => {
         const classid = req.query.classId;
         fs.mkdirSync(`${__dirname}/../public/${classid}/lecturematerial/`, { recursive: true });
@@ -33,8 +33,54 @@ let storage = multer.diskStorage({
     }
 })
 
-let upload = multer({
-    storage: storage
+let lectureMaterialUpload = multer({
+    storage: lectureMaterialStorage
+})
+
+const Assignment = require('../db/models/Assignment');
+
+let assignmentStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        const classid = req.query.classId;
+        const assignmentid = req.body.assignmentId;
+        console.log(classid);
+        fs.mkdirSync(`${__dirname}/../public/${classid}/submit/${assignmentid}/`, { recursive: true });
+        callback(null, `${__dirname}/../public/${classid}/submit/${assignmentid}/`);
+    },
+    filename: (req, file, callback) => {
+        const classid = req.query.classId;
+        let extension = path.extname(file.originalname);
+        let basename = path.basename(file.originalname, extension);
+        const assignmentid = req.body.assignmentId;
+        const filename = basename + extension;
+        const storename = basename + "-" + Date.now() + extension;
+        const storepath = `${__dirname}/../public/${classid}/submit/${assignmentid}/`;
+
+        //store data in DB
+        const userid = req.body.userId;
+
+        let today = new Date();
+
+        const submit = {
+            userId: userid,
+            fileName: filename,
+            lastSubmitTime: today,
+            storePath: storepath,
+            storeName: storename
+        }
+
+        Assignment.updateOne({ assignmentId: assignmentid }, { $push: { submitStatus: submit } })
+            .then((data) => {
+                callback(null, storename);
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+})
+
+let assignmentUpload = multer({
+    storage: assignmentStorage
 })
 
 const checkIsStudent = require('../middlewares/auth/checkIsStudent');
@@ -45,14 +91,14 @@ const uploadMiddleware = require('../middlewares/class/lectureMaterials/uploadMi
 const downloadMiddleware = require('../middlewares/class/lectureMaterials/downloadMiddleware');
 const deleteContentMiddleware = require('../middlewares/class/lectureMaterials/deleteMiddleware');
 const createAssignmentMiddleware = require('../middlewares/class/assignment/createMiddleware');
-const submitAssignmentMiddleware = require('../middlewares/class/assignment/submitMiddleware');
 const submitAssignmentRespondMiddleware = require('../middlewares/class/assignment/submitRespondMiddleware');
+const deleteAssignmentMiddleware = require('../middlewares/class/assignment/deleteMiddleware');
 
 router.post('/create', checkIsProf, createMiddleware);
 
 router.post('/join', checkIsStudent, joinMiddleware);
 
-router.post('/upload', checkIsProf, upload.fields([{ name: 'lecturenote' }, { name: 'lecturevideo' }, { name: 'classId' }]), uploadMiddleware);
+router.post('/upload', checkIsProf, lectureMaterialUpload.fields([{ name: 'lecturenote' }, { name: 'lecturevideo' }, { name: 'classId' }]), uploadMiddleware);
 
 router.get('/download', checkIsStudent, downloadMiddleware);
 
@@ -60,6 +106,10 @@ router.post('/deletecontent', checkIsProf, deleteContentMiddleware);
 
 router.post('/assignment/create', checkIsProf, createAssignmentMiddleware);
 
-router.post('/assignment/submit', checkIsStudent, submitAssignmentMiddleware, submitAssignmentRespondMiddleware);
+router.post('/assignment/submit', checkIsStudent, assignmentUpload.fields([{ name: 'assignment' }]), submitAssignmentRespondMiddleware);
+
+router.post('/assignment/delete', checkIsStudent, deleteAssignmentMiddleware);
+
+router.post('piazza/post')
 
 module.exports = router;
