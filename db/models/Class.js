@@ -22,14 +22,14 @@ const quizScema = new mongoose.Schema({
 
 const classSchema = new mongoose.Schema({
     instructor: { type: String, required: true },
-    classId: { type: String, required: true },
+    classId: { type: String },
     className: { type: String, required: true },
-    students: { type: [String], required: true },
+    students: { type: [String] },
     joinPassword: { type: String, required: true },
-    lectureDates: { type: [Date], required: true },
+    lectureDates: { type: [Date] },
     notices: { type: [noticeSchema] },
     lectureContents: { type: [lectureContentSchema] },
-    assignments: { type: [String], required: true } // store array of assignment ids
+    assignments: { type: [String] } // store array of assignment ids
 })
 
 module.exports = mongoose.model('Lecturecontent', lectureContentSchema);

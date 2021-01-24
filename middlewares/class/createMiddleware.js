@@ -3,9 +3,8 @@ const crypto = require('crypto');
 const dotenv = require('dotenv');
 
 const createMiddleware = (req, res, next) => {
-    const instructor = req.body.userId;
     console.log(req)
-
+    const instructor = req.body.userId;
     const makeid = (length) => {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

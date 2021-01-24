@@ -11,7 +11,6 @@ const verify = (password, hash) => {
 const loginMiddleware = (req, res, next) => {
     const userid = req.body.userId;
     const userpassword = req.body.userPassword;
-    const isstudent = req.body.isStudent;
 
     const check = (data) => {
         if (data === null) {
@@ -29,7 +28,10 @@ const loginMiddleware = (req, res, next) => {
                             subject: 'userInfo'
                         }, (err, token) => {
                             if (err) reject(err)
-                            else resolve(token)
+                            else {
+                                const isstudent = data.isStudent;
+                                resolve(token, isstudent)
+                            }
                         })
                 })
             } else {
@@ -41,11 +43,12 @@ const loginMiddleware = (req, res, next) => {
         }
     }
 
-    const respond = (token) => {
+    const respond = (token, isstudent) => {
         return res.json({
             msg: "login success",
             success: true,
-            jwt: token
+            jwt: token,
+            isStudent: isstudent
         })
     }
 
