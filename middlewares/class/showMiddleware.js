@@ -24,13 +24,12 @@ const showMiddleware = (req, res, next) => {
                             profId = data.instructor
                             className = data.className
                             console.log(className)
-                            classesInfo.push({className:data.className, instructor:profId})
+                            classesInfo.push({className:data.className, instructor:profId, classId:element})
                             console.log(classesInfo)
                             res.json({ classes: classesInfo, msg: 'success', success: true })
                         }
                     })
                 })
-                
             } else {
                 res.json({
                     msg: err.message,
