@@ -11,11 +11,14 @@ const verify = (password, hash) => {
 const loginMiddleware = (req, res, next) => {
     const userid = req.body.userId;
     const userpassword = req.body.userPassword;
+   
 
     const check = (data) => {
         if (data === null) {
             return res.json({ msg: 'No such Id or password', success: false });
         } else {
+            var isstudent = data.isStudent
+            //console.log(isstudent, userid,userpassword)
             if (verify(userpassword.toString('base64')), data.userPassword.toString('base64')) {
                 return new Promise((resolve, reject) => {
                     jwt.sign({
@@ -29,8 +32,9 @@ const loginMiddleware = (req, res, next) => {
                         }, (err, token) => {
                             if (err) reject(err)
                             else {
-                                const isstudent = data.isStudent;
-                                resolve(token, isstudent)
+                                //console.log(token)
+                                //console.log("check0",isstudent)
+                                resolve({isstudent, token})
                             }
                         })
                 })
@@ -43,7 +47,9 @@ const loginMiddleware = (req, res, next) => {
         }
     }
 
-    const respond = (token, isstudent) => {
+    const respond = ({isstudent, token}) => {
+        //console.log("check1",isstudent)
+        //console.log("check2",token)
         return res.json({
             msg: "login success",
             success: true,
@@ -57,10 +63,12 @@ const loginMiddleware = (req, res, next) => {
     }
 
 
-    User.findOne({ userId: userid, isStudent: isstudent })
+    User.findOne({ userId: req.body.userId })
         .then(check)
         .then(respond)
         .catch(onError)
+
+
 }
 
 module.exports = loginMiddleware;

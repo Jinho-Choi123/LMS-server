@@ -10,7 +10,6 @@ module.exports = () => {
                 console.log("mongodb connected");
             });
     }
-
     connect();
     mongoose.connection.on('disconnected', connect);
 }

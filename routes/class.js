@@ -43,6 +43,7 @@ let assignmentStorage = multer.diskStorage({
     destination: (req, file, callback) => {
         const classid = req.query.classId;
         const assignmentid = req.body.assignmentId;
+        console.log(assignmentid);
         console.log(classid);
         fs.mkdirSync(`${__dirname}/../public/${classid}/submit/${assignmentid}/`, { recursive: true });
         callback(null, `${__dirname}/../public/${classid}/submit/${assignmentid}/`);
@@ -69,11 +70,14 @@ let assignmentStorage = multer.diskStorage({
             storeName: storename
         }
 
-        Assignment.updateOne({ assignmentId: assignmentid }, { $push: { submitStatus: submit } })
+        console.log(submit)
+;        Assignment.updateOne({ assignmentId: assignmentid }, { $push: { submitStatus: submit } })
             .then((data) => {
+                console.log(data);
                 callback(null, storename);
             })
             .catch((err) => {
+                console.log(err);
                 throw err;
             })
     }
@@ -93,7 +97,7 @@ const deleteContentMiddleware = require('../middlewares/class/lectureMaterials/d
 const createAssignmentMiddleware = require('../middlewares/class/assignment/createMiddleware');
 const submitAssignmentRespondMiddleware = require('../middlewares/class/assignment/submitRespondMiddleware');
 const deleteAssignmentMiddleware = require('../middlewares/class/assignment/deleteMiddleware');
-//const showClassesMiddleware = require('../middlewares/class/showMiddleware');
+const showClassesMiddleware = require('../middlewares/class/showMiddleware')
 
 router.post('/create', checkIsProf, createMiddleware);
 
@@ -107,12 +111,9 @@ router.post('/deletecontent', checkIsProf, deleteContentMiddleware);
 
 router.post('/assignment/create', checkIsProf, createAssignmentMiddleware);
 
-router.post('/assignment/submit', checkIsStudent, assignmentUpload.fields([{ name: 'assignment' }]), submitAssignmentRespondMiddleware);
+router.post('/assignment/submit', assignmentUpload.fields([{ name: 'assignment' }, {name: 'assignmentId'}, {name: 'userId'}]), submitAssignmentRespondMiddleware);
 
 router.post('/assignment/delete', checkIsStudent, deleteAssignmentMiddleware);
 
-router.post('piazza/post')
-
-//router.get('/get', showClassesMiddleware)
-
+router.post('/get', showClassesMiddleware);
 module.exports = router;
