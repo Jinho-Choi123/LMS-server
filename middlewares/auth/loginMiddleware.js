@@ -11,41 +11,7 @@ const verify = (password, hash) => {
 const loginMiddleware = (req, res, next) => {
     const userid = req.body.userId;
     const userpassword = req.body.userPassword;
-    // User.findOne({userId:userid}).exec()
-    // .then(data =>{
-    //     console.log(data.isStudent)
-    //     var isstudent = data.isStudent;
-    //     //console.log(isstudent);
-    //     if (verify(userpassword.toString('base64')), data.userPassword.toString('base64')) {
-    //         return new Promise((resolve, reject) => {
-    //             jwt.sign({
-    //                     userId: userid,
-    //                     isStudent: isstudent
-    //                 },
-    //                 process.env.JWT_SECRET, {
-    //                     expiresIn: '24h',
-    //                     issuer: "zinos.xyz",
-    //                     subject: 'userInfo'
-    //                 }, (err, token) => {
-    //                     if (err) reject(err)
-    //                     else {
-    //                         resolve(token, isstudent)
-    //                     }
-    //                 })
-    //         })
-    //     } 
-    //     else {
-    //         return res.json({
-    //             msg: "Login failed",
-    //             success: false
-    //         })
-    //     }
-
-    // })
-    // .then((token, isstudent) =>{
-    //     console.log("check",isstudent)
-    // })
-    // .catch(err =>{throw err;})
+   
 
     const check = (data) => {
         if (data === null) {
@@ -66,8 +32,8 @@ const loginMiddleware = (req, res, next) => {
                         }, (err, token) => {
                             if (err) reject(err)
                             else {
-                                console.log(token)
-                                console.log("check0",isstudent)
+                                //console.log(token)
+                                //console.log("check0",isstudent)
                                 resolve({isstudent, token})
                             }
                         })
@@ -82,8 +48,8 @@ const loginMiddleware = (req, res, next) => {
     }
 
     const respond = ({isstudent, token}) => {
-        console.log("check1",isstudent)
-        console.log("check2",token)
+        //console.log("check1",isstudent)
+        //console.log("check2",token)
         return res.json({
             msg: "login success",
             success: true,
@@ -102,10 +68,7 @@ const loginMiddleware = (req, res, next) => {
         .then(respond)
         .catch(onError)
 
-    // User.findOne({ userId: req.body.userId }).exec()
-    // .then(data =>{check(data)})
-    // .then((token, isstudent) =>{respond(token, isstudent)})
-    // .catch(onError)
+
 }
 
 module.exports = loginMiddleware;
