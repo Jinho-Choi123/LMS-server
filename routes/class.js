@@ -93,6 +93,7 @@ const deleteContentMiddleware = require('../middlewares/class/lectureMaterials/d
 const createAssignmentMiddleware = require('../middlewares/class/assignment/createMiddleware');
 const submitAssignmentRespondMiddleware = require('../middlewares/class/assignment/submitRespondMiddleware');
 const deleteAssignmentMiddleware = require('../middlewares/class/assignment/deleteMiddleware');
+//const showClassesMiddleware = require('../middlewares/class/showMiddleware');
 
 router.post('/create', checkIsProf, createMiddleware);
 
@@ -111,5 +112,7 @@ router.post('/assignment/submit', checkIsStudent, assignmentUpload.fields([{ nam
 router.post('/assignment/delete', checkIsStudent, deleteAssignmentMiddleware);
 
 router.post('piazza/post')
+
+//router.get('/get', showClassesMiddleware)
 
 module.exports = router;
