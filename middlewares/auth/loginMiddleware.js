@@ -16,6 +16,8 @@ const loginMiddleware = (req, res, next) => {
         if (data === null) {
             return res.json({ msg: 'No such Id or password', success: false });
         } else {
+            var isstudent = User.findOne({userId:userid}).isStudent
+            console.log(isstudent, userid,userpassword)
             if (verify(userpassword.toString('base64')), data.userPassword.toString('base64')) {
                 return new Promise((resolve, reject) => {
                     jwt.sign({
@@ -29,7 +31,7 @@ const loginMiddleware = (req, res, next) => {
                         }, (err, token) => {
                             if (err) reject(err)
                             else {
-                                const isstudent = data.isStudent;
+                                //const isstudent = data.isStudent;
                                 resolve(token, isstudent)
                             }
                         })
@@ -57,7 +59,7 @@ const loginMiddleware = (req, res, next) => {
     }
 
 
-    User.findOne({ userId: userid, isStudent: isstudent })
+    User.findOne({ userId: req.body.userId })
         .then(check)
         .then(respond)
         .catch(onError)

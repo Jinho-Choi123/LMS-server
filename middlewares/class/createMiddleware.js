@@ -23,6 +23,7 @@ const createMiddleware = (req, res, next) => {
     Class.findOne({ className: classname }, (err, data) => {
         if (err) throw err;
         if (data != null) { return res.json({ msg: "className already exists", success: false }); } else {
+            console.log(req);
             crypto.pbkdf2(req.body.joinPassword, (process.env.JOIN_PASSWORD_HASH_SALT).toString('base64'), parseInt(process.env.JOIN_PASSWORD_HASH_ITER), 64, 'sha512', (err, key) => {
                 const joinpassword = key.toString('base64');
                 const class_ = new Class({
