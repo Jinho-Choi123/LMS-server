@@ -16,7 +16,8 @@ const registerMiddleware = (req, res, next) => {
                     const user = new User({
                         userId: userid,
                         userPassword: key.toString('base64'),
-                        isStudent: isstudent
+                        isStudent: isstudent,
+                        lectureIn: []
                     })
                     user.save((err, product) => {
                         res.json({

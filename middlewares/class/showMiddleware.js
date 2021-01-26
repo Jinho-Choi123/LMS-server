@@ -27,7 +27,7 @@ const showMiddleware = (req, res, next) => {
                         profId = data.instructor
                         className = data.className
                         //console.log(className)
-                        classesInfo.push({className:data.className, instructor:profId})
+                        classesInfo.push({className:data.className, instructor:profId, classId: data.classId})
                         console.log("1",classesInfo)
                     }
                 })

@@ -4,10 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://inhwa:inhwa@madcamp.yaarc.mongodb.net/lms?retryWrites=true&w=majority', {
-    useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
-}).then(() => console.log('MongoDB connected...'))
-.catch(error => console.log(error))
+// mongoose.connect('mongodb+srv://inhwa:inhwa@madcamp.yaarc.mongodb.net/lms?retryWrites=true&w=majority', {
+//     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
+// }).then(() => console.log('MongoDB connected...'))
+// .catch(error => console.log(error))
 
 var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
@@ -17,7 +17,7 @@ const classRouter = require('./routes/class');
 
 const PORT = 8080;
 
-//const db = require('./db/db');
+const db = require('./db/db');
 const dotenv = require('dotenv');
 dotenv.config({ path: '/home/ubuntu/LMS-Server/.env' });
 
@@ -28,7 +28,7 @@ var app = express();
 app.use(cors());
 
 //connect to db
-//db();
+db();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
