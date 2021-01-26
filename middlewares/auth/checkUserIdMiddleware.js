@@ -3,8 +3,12 @@ const crypto = require('crypto');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 
-const checkMiddleware = (req, res, next) => {
+const checkUserIdMiddleware = (req, res, next) => {
     const token = req.headers['x-access-token'] || req.query.token;
+
+    const userid = req.query.userId;
+    
+
 
     if (!token) {
         return res.status(403).json({
@@ -21,22 +25,27 @@ const checkMiddleware = (req, res, next) => {
     })
 
     const respond = (token) => {
-        User.findOne(token.payload, (err, data) => {
-            if (err) throw err;
-            else {
+
+        User.findOne(token.payload)
+            .then((data) => {
                 if (data === null) return res.status(403).json({
                     success: false,
                     msg: 'no such user'
                 })
                 else {
-                    next();
-                    // res.json({
-                    //     success: true,
-                    //     msg: "success"
-                    // })
+                    if(data.userId === userid) next();
+                    else return res.status(403).json({
+                        success: false,
+                        msg: 'no such user'
+                    })
+
                 }
-            }
-        })
+
+
+            })
+            .catch((err) => {
+                throw err;
+            })
     }
 
     const onError = (err) => {
@@ -52,4 +61,4 @@ const checkMiddleware = (req, res, next) => {
 
 }
 
-module.exports = checkMiddleware;
+module.exports = checkUserIdMiddleware;

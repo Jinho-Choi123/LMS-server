@@ -14,7 +14,7 @@ const assignmentSchema = new mongoose.Schema({
     openTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
     submitPath: { type: String, required: true },
-    submitStatus: { type: [submitSchema], required: true },
+    submitStatus: { type: [submitSchema] },
     instruction: { type: String, required: true }
 })
 

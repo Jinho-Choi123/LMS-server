@@ -5,7 +5,6 @@ const downloadMiddleware = (req, res, next) => {
     const filename = req.query.fileName;
     const classid = req.query.classId;
     const lecturedate = new Date(req.query.lectureDate);
-    console.log(lecturedate);
 
     Class.findOne({ classId: classid }).select({ lectureContents: { $elemMatch: { fileName: filename, lectureDate: lecturedate } } })
         .then((data) => {
@@ -16,6 +15,7 @@ const downloadMiddleware = (req, res, next) => {
                 })
             }
             const downloadpath = data.lectureContents[0].storePath;
+            console.log(downloadpath)
             return res.download(downloadpath);
         })
         .catch((err) => {
