@@ -109,6 +109,7 @@ const createNoticeMiddleware = require('../middlewares/class/notice/createMiddle
 const deleteNoticeMiddleware = require('../middlewares/class/notice/deleteMiddleware');
 const modifyNoticeMiddleware = require('../middlewares/class/notice/modifyMiddleware');
 const loadNoticeMiddleware = require('../middlewares/class/notice/loadMiddleware');
+const classInfoMiddleware = require('../middlewares/class/classInfoMiddleware');
 
 router.post('/create', checkIsProf, createMiddleware);
 
@@ -139,5 +140,7 @@ router.post('/notice/delete', deleteNoticeMiddleware);
 router.post('/notice/modify', modifyNoticeMiddleware);
 
 router.get('/notice/load', loadNoticeMiddleware);
+
+router.post('/info',classInfoMiddleware);
 
 module.exports = router;

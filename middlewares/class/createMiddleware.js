@@ -21,6 +21,7 @@ const createMiddleware = (req, res, next) => {
     const classid = today.getFullYear().toString() + today.getMonth().toString() + today.getTime().toString() + makeid(40);
     const classname = req.body.className;
     const lecturedate = req.body.lectureDate;
+    console.log(lecturedate)
 
 
     Class.findOne({ className: classname }, (err, data) => {
@@ -34,7 +35,7 @@ const createMiddleware = (req, res, next) => {
                     className: classname,
                     student: [],
                     joinPassword: joinpassword,
-                    lectureDate: lecturedate,
+                    lectureDates: lecturedate,
                     notices: []
                 })
 
