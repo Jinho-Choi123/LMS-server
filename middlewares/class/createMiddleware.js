@@ -1,6 +1,7 @@
 const Class = require('../../db/models/Class');
 const crypto = require('crypto');
 const dotenv = require('dotenv');
+const User = require('../../db/models/User')
 
 const createMiddleware = (req, res, next) => {
     console.log(req)
@@ -20,10 +21,10 @@ const createMiddleware = (req, res, next) => {
     const classname = req.body.className;
     const lecturedate = req.body.lectureDate;
 
+
     Class.findOne({ className: classname }, (err, data) => {
         if (err) throw err;
         if (data != null) { return res.json({ msg: "className already exists", success: false }); } else {
-            console.log(req);
             crypto.pbkdf2(req.body.joinPassword, (process.env.JOIN_PASSWORD_HASH_SALT).toString('base64'), parseInt(process.env.JOIN_PASSWORD_HASH_ITER), 64, 'sha512', (err, key) => {
                 const joinpassword = key.toString('base64');
                 const class_ = new Class({
@@ -38,6 +39,7 @@ const createMiddleware = (req, res, next) => {
 
                 class_.save()
                     .then(() => {
+                        User.updateOne({ userId: instructor }, { $push: { lectureIn: classid } })
                         res.json({
                             msg: "creating class success",
                             success: true
@@ -49,7 +51,6 @@ const createMiddleware = (req, res, next) => {
                             success: false
                         })
                     })
-
             })
         }
     })
