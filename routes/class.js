@@ -127,4 +127,5 @@ router.get('/assignment/load', loadAssignmentMiddleware);
 router.get('/assignment/download', downloadAssignmentMiddleware);
 
 router.post('/get', showClassesMiddleware);
+
 module.exports = router;
