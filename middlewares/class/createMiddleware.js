@@ -4,8 +4,9 @@ const dotenv = require('dotenv');
 const User = require('../../db/models/User')
 
 const createMiddleware = (req, res, next) => {
-    console.log(req)
+    //console.log(req)
     const instructor = req.body.userId;
+    console.log("instructor1",instructor)
     const makeid = (length) => {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -40,10 +41,14 @@ const createMiddleware = (req, res, next) => {
                 class_.save()
                     .then(() => {
                         User.updateOne({ userId: instructor }, { $push: { lectureIn: classid } })
-                        res.json({
-                            msg: "creating class success",
-                            success: true
+                        .then((data) => {
+                            console.log(data);
+                            res.json({
+                                msg: "creating class success",
+                                success: true
+                            })
                         })
+                        
                     })
                     .catch((err) => {
                         res.json({

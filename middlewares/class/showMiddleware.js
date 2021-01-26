@@ -18,7 +18,7 @@ const showMiddleware = (req, res, next) => {
         return new Promise((resolve, reject) =>{
             var classesInfo = [];
             classes.forEach(element =>{
-                console.log(element)
+                //console.log(element)
                 var profId;
                 var className;
                 Class.findOne({classId:element},function(err,data){
@@ -26,7 +26,7 @@ const showMiddleware = (req, res, next) => {
                     else{
                         profId = data.instructor
                         className = data.className
-                        console.log(className)
+                        //console.log(className)
                         classesInfo.push({className:data.className, instructor:profId})
                         console.log("1",classesInfo)
                     }
