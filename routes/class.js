@@ -105,6 +105,10 @@ const deleteAssignmentMiddleware = require('../middlewares/class/assignment/dele
 const showClassesMiddleware = require('../middlewares/class/showMiddleware');
 const loadAssignmentMiddleware = require('../middlewares/class/assignment/loadMiddleware');
 const downloadAssignmentMiddleware = require('../middlewares/class/assignment/downloadMiddleware');
+const createNoticeMiddleware = require('../middlewares/class/notice/createMiddleware');
+const deleteNoticeMiddleware = require('../middlewares/class/notice/deleteMiddleware');
+const modifyNoticeMiddleware = require('../middlewares/class/notice/modifyMiddleware');
+const loadNoticeMiddleware = require('../middlewares/class/notice/loadMiddleware');
 
 router.post('/create', checkIsProf, createMiddleware);
 
@@ -127,5 +131,13 @@ router.get('/assignment/load', loadAssignmentMiddleware);
 router.get('/assignment/download', downloadAssignmentMiddleware);
 
 router.post('/get', showClassesMiddleware);
+
+router.post('/notice/create', createNoticeMiddleware);
+
+router.post('/notice/delete', deleteNoticeMiddleware);
+
+router.post('/notice/modify', modifyNoticeMiddleware);
+
+router.get('/notice/load', loadNoticeMiddleware);
 
 module.exports = router;

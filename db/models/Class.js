@@ -4,6 +4,7 @@ const noticeSchema = new mongoose.Schema({
     date: { type: Date, required: true },
     title: { type: String, required: true },
     content: { type: String, required: true },
+    noticeId: {type: String, required: true}
 })
 
 const lectureContentSchema = new mongoose.Schema({
