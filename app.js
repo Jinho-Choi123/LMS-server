@@ -4,9 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose')
+// mongoose.connect('mongodb+srv://inhwa:inhwa@madcamp.yaarc.mongodb.net/lms?retryWrites=true&w=majority', {
+//     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
+// }).then(() => console.log('MongoDB connected...'))
+// .catch(error => console.log(error))
 
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+//var usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const classRouter = require('./routes/class');
 

@@ -25,6 +25,10 @@ const createNoticeMiddleware = require('../middlewares/class/notice/createMiddle
 const deleteNoticeMiddleware = require('../middlewares/class/notice/deleteMiddleware');
 const modifyNoticeMiddleware = require('../middlewares/class/notice/modifyMiddleware');
 const loadNoticeMiddleware = require('../middlewares/class/notice/loadMiddleware');
+const classInfoMiddleware = require('../middlewares/class/classInfoMiddleware');
+const createQuizMiddleware = require('../middlewares/class/quiz/createMiddleware');
+const deleteQuizMiddleware = require('../middlewares/class/quiz/deleteMiddleware');
+const loadQuizMiddleware = require('../middlewares/class/quiz/loadMiddleware');
 
 router.post('/create', checkUser, checkIsProf, createMiddleware);
 
@@ -46,7 +50,7 @@ router.get('/assignment/load', checkUser, checkInClass, loadAssignmentMiddleware
 
 router.get('/assignment/download', checkUser, checkInClass, downloadAssignmentMiddleware);
 
-router.post('/get', checkUser, checkInClass, showClassesMiddleware);
+router.get('/get', checkUser, showClassesMiddleware);
 
 router.post('/notice/create', checkUser, checkInClass, checkIsProf, createNoticeMiddleware);
 
@@ -55,5 +59,13 @@ router.post('/notice/delete', checkUser, checkInClass, checkIsProf, deleteNotice
 router.post('/notice/modify', checkUser, checkInClass, checkIsProf, modifyNoticeMiddleware);
 
 router.get('/notice/load', checkUser, checkInClass, loadNoticeMiddleware);
+
+router.get('/info',checkUser, checkInClass,classInfoMiddleware);
+
+router.post('/quiz/create', checkUser, checkInClass, checkIsProf, createQuizMiddleware);
+
+router.post('/quiz/delete', checkUser, checkInClass, checkIsProf, deleteQuizMiddleware);
+
+router.get('/quiz/load', loadQuizMiddleware);
 
 module.exports = router;

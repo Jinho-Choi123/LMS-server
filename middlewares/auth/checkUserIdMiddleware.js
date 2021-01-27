@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const checkUserIdMiddleware = (req, res, next) => {
     const token = req.headers['x-access-token'] || req.query.token;
-
+    console.log(token);
     const userid = req.query.userId;
 
     if (!token) {
@@ -23,20 +23,20 @@ const checkUserIdMiddleware = (req, res, next) => {
     })
 
     const respond = (token) => {
-
-        User.findOne(token.payload)
+        User.findOne({userId: token.userId, isStudent: token.isStudent})
             .then((data) => {
+                console.log("hello" + data);
                 if (data === null) return res.status(403).json({
                     success: false,
                     msg: 'no such user'
                 })
                 else {
+                    console.log(data.userId)
                     if(data.userId === userid) next();
                     else return res.status(403).json({
                         success: false,
                         msg: 'no such user'
                     })
-
                 }
             })
             .catch((err) => {
