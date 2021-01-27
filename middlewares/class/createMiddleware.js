@@ -4,8 +4,7 @@ const dotenv = require('dotenv');
 const User = require('../../db/models/User')
 
 const createMiddleware = (req, res, next) => {
-    //console.log(req)
-    const instructor = req.body.userId;
+    const instructor = req.query.userId;
     console.log("instructor1",instructor)
     const makeid = (length) => {
         var result = '';
@@ -20,7 +19,7 @@ const createMiddleware = (req, res, next) => {
     let today = new Date();
     const classid = today.getFullYear().toString() + today.getMonth().toString() + today.getTime().toString() + makeid(40);
     const classname = req.body.className;
-    const lecturedate = req.body.lectureDate;
+    const lecturedate = req.body.lectureDates;
     console.log(lecturedate)
 
 
@@ -36,9 +35,8 @@ const createMiddleware = (req, res, next) => {
                     student: [],
                     joinPassword: joinpassword,
                     lectureDates: lecturedate,
-                    notices: []
+                    notices: [],
                 })
-
                 class_.save()
                     .then(() => {
                         User.updateOne({ userId: instructor }, { $push: { lectureIn: classid } })
