@@ -9,9 +9,10 @@ const updateProgressMiddleware = (req, res, next) => {
     const assignmentId = req.body.assignmentId;
     const progress = req.body.progress;
 
-    User.findOneAndUpdate({userId:userId},{$set:{"assignment.$.progress":progress}},(err,data)=>{
+    User.findOneAndUpdate({userId:userId, "assignments.assignmentId":assignmentId},{$set:{"assignment.$.progress":progress}},(err,data)=>{
         if(err) throw err;
         else{
+            console.log("progress",progress)
             res.json({success:true})
         }
     })
