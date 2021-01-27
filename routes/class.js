@@ -104,6 +104,7 @@ const submitAssignmentRespondMiddleware = require('../middlewares/class/assignme
 const deleteAssignmentMiddleware = require('../middlewares/class/assignment/deleteMiddleware');
 const showClassesMiddleware = require('../middlewares/class/showMiddleware');
 const loadAssignmentMiddleware = require('../middlewares/class/assignment/loadMiddleware');
+const loadallAssignmentMiddleware = require('../middlewares/class/assignment/loadallMiddleware');
 const downloadAssignmentMiddleware = require('../middlewares/class/assignment/downloadMiddleware');
 const createNoticeMiddleware = require('../middlewares/class/notice/createMiddleware');
 const deleteNoticeMiddleware = require('../middlewares/class/notice/deleteMiddleware');
@@ -128,6 +129,8 @@ router.post('/assignment/submit', assignmentUpload.fields([{ name: 'assignment' 
 router.post('/assignment/delete', checkIsStudent, deleteAssignmentMiddleware);
 
 router.get('/assignment/load', loadAssignmentMiddleware);
+
+router.get('/assignment/loadall', loadallAssignmentMiddleware);
 
 router.get('/assignment/download', downloadAssignmentMiddleware);
 
