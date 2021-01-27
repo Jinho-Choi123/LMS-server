@@ -40,11 +40,11 @@ const createMiddleware = (req, res, next) => {
             console.log(data);
             assignment.save()
                 .then((data) => {
-                    User.updateMany({isStudent:true, lectureIn:{$all:classid}},{ $push: {assignments:{assignmentId:assignmentid, progress:"0"} }},(err,data)=>{
+                    User.updateMany({isStudent:true, lectureIn:{$all:classid}},{ $push: {assignments:{assignmentId:assignmentid, progress:"0", assignmentName:assignmentname, endTime:endtime} }},(err,data)=>{
                         // if(err) throw err;
                         //console.log("updated",data)
                     })
-                    console.log("assignmentId",assignmentid)
+                    console.log("assignmentname",assignmentname)
                     res.json({
                         msg: "Add Assignment success",
                         success: true
