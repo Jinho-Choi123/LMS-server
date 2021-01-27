@@ -33,9 +33,8 @@ const createMiddleware = (req, res, next) => {
                     student: [],
                     joinPassword: joinpassword,
                     lectureDate: lecturedate,
-                    notices: []
+                    notices: [],
                 })
-
                 class_.save()
                     .then(() => {
                         res.json({
@@ -49,7 +48,7 @@ const createMiddleware = (req, res, next) => {
                             success: false
                         })
                     })
-
+                    
             })
         }
     })

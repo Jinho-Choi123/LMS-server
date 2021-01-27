@@ -1,14 +1,14 @@
 const User = require('../../db/models/User');
-const Class = require('../../db/models/Class');
 
 const checkInClassMiddleware = (req, res, next) => {
     const userid = req.query.userId;
     const classid = req.query.classId;
 
-    Class.findOne({classId: classid})
+    User.findOne({userId: userid})
         .then((data) => {
-            const students = data.students;
-            if(students.includes(userid)) {
+            const lecturein = data.lectureIn;
+
+            if(lecturein.includes(classid)) {
                 next();
             }
             else {
@@ -18,9 +18,7 @@ const checkInClassMiddleware = (req, res, next) => {
                 })
             }
         })
-        .catch((err) => {
-            throw err;
-        })
-
 
 }
+
+module.exports = checkInClassMiddleware;

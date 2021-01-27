@@ -7,8 +7,6 @@ const checkUserIdMiddleware = (req, res, next) => {
     const token = req.headers['x-access-token'] || req.query.token;
 
     const userid = req.query.userId;
-    
-
 
     if (!token) {
         return res.status(403).json({
@@ -40,8 +38,6 @@ const checkUserIdMiddleware = (req, res, next) => {
                     })
 
                 }
-
-
             })
             .catch((err) => {
                 throw err;
