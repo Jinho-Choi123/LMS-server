@@ -28,12 +28,12 @@ const showMiddleware = (req, res, next) => {
                         className = data.className
                         //console.log(className)
                         classesInfo.push({className:data.className, instructor:profId, classId: data.classId})
-                        console.log("1",classesInfo)
+                        //console.log("1",classesInfo)
                     }
                 })
             })
             setTimeout(()=>{resolve(classesInfo)},1000)
-            console.log("2",classesInfo)
+            //.log("2",classesInfo)
         })
     }
 
@@ -41,6 +41,7 @@ const showMiddleware = (req, res, next) => {
         return new Promise((resolve, reject) =>{
             User.findOne({ userId: userId }, (err, data) => {
                 if (err) throw err;
+                //console.log("data",data)
                 const classes = data.lectureIn
                 resolve(classes)
             })

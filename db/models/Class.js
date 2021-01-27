@@ -30,6 +30,7 @@ const classSchema = new mongoose.Schema({
     lectureDates: { type: [Date] },
     notices: { type: [noticeSchema] },
     lectureContents: { type: [lectureContentSchema] },
+    quizContents : {type:[quizScema]},
     assignments: { type: [String] } // store array of assignment ids
 })
 

@@ -110,6 +110,12 @@ const deleteNoticeMiddleware = require('../middlewares/class/notice/deleteMiddle
 const modifyNoticeMiddleware = require('../middlewares/class/notice/modifyMiddleware');
 const loadNoticeMiddleware = require('../middlewares/class/notice/loadMiddleware');
 const classInfoMiddleware = require('../middlewares/class/classInfoMiddleware');
+const showTimelineMiddleware = require('../middlewares/class/showTimelineMiddleware');
+const updateProgressMiddleware = require('../middlewares/class/updateProgressMiddleware')
+
+router.post('/updateprogress',updateProgressMiddleware);
+
+router.post('/timeline', showTimelineMiddleware);
 
 router.post('/create', checkIsProf, createMiddleware);
 
