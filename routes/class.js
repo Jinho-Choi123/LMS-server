@@ -33,8 +33,6 @@ const createQuizMiddleware = require('../middlewares/class/quiz/createMiddleware
 const deleteQuizMiddleware = require('../middlewares/class/quiz/deleteMiddleware');
 const loadQuizMiddleware = require('../middlewares/class/quiz/loadMiddleware');
 
-router.post('/get',showClassesMiddleware);
-
 router.post('/updateprogress',updateProgressMiddleware);
 
 router.post('/timeline', showTimelineMiddleware);
