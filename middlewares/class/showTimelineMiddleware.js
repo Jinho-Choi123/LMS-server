@@ -82,7 +82,7 @@ const showTimelineMiddleware = (req, res, next) => {
     }
 
     User.findOne({ userId: userId }, (err, data) => {
-        if (err) throw err;
+        if (err) console.log(err)
         else {
             console.log("aaaaaaaaaaaaaaaaaaaaaaa")
             //console.log(data)
