@@ -61,20 +61,13 @@ const showTimelineMiddleware = (req, res, next) => {
     const findTimeline = (classes) => {
         return new Promise(async (resolve, reject) => {
             var assignment = []
-            await classes.forEach(element => {
-                Class.findOne({ classId: element }, (err, data) => {
-                    if (err) throw err;
-                    else {
-                        //console.log("data assignments",data.assignments)
-                        assignment = assignment.concat(data.assignments)
-                        //console.log("assignment!!",assignment)
-                    }
-                })
+            Class.find({classId:{$in:classes}},(err,data)=>{
+                if(err) throw err;
+                else{
+                    resolve(data)
+                }
             })
-            // console.log("1assignment",assignment);
-            // resolve(assignment)
 
-            setTimeout(() => { console.log("111111111assignment", assignment); resolve(assignment) }, 1000)
         })
     }
 

@@ -17,23 +17,13 @@ const showMiddleware = (req, res, next) => {
     const findClass = (classes) =>{
         return new Promise((resolve, reject) =>{
             var classesInfo = [];
-            classes.forEach(element =>{
-                //console.log(element)
-                var profId;
-                var className;
-                Class.findOne({classId:element},function(err,data){
-                    if(err) throw err;
-                    else{
-                        profId = data.instructor
-                        className = data.className
-                        //console.log(className)
-                        classesInfo.push({className:data.className, instructor:profId, classId: data.classId})
-                        //console.log("1",classesInfo)
-                    }
-                })
+            Class.find({classId:{$in:classes}},(err,data)=>{
+                if(err) throw err;
+                else{
+                    resolve(data)
+                }
             })
-            setTimeout(()=>{resolve(classesInfo)},1000)
-            //.log("2",classesInfo)
+           
         })
     }
 
