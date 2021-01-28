@@ -1,4 +1,5 @@
 const Class = require('./../../../db/models/Class');
+const User = require('./../../../db/models/User');
 
 const createQuizMiddelware = (req, res, next) => {
     const classid = req.query.classId;
@@ -31,20 +32,39 @@ const createQuizMiddelware = (req, res, next) => {
         quizContent: quizcontent
     }
 
+    const userQuiz = {
+        quizId: quizid,
+        quizName: quizname,
+        openTime: opentime,
+        endTime: endtime,
+        progress: false
+    }
+
     Class.updateOne({classId: classid}, {$push: {quizes: quiz}})
         .then((data) => {
-            res.json({
-                msg: "create quiz success",
-                success: true
+            console.log("update class");
+            console.log(data);
+            //User model에 userQuizSchema update하기
+            User.updateMany({lectureIn: classid}, {$push: {quizes: userQuiz}})
+                .then((data) => {
+                    console.log("update user");
+                    console.log(data);
+                    res.json({
+                        msg: "create quiz success",
+                        success: true
+                    })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    throw err;
+                })
             })
-        })
         .catch((err) => {
             res.status(403).json({
                 msg: err.message,
                 success: false
             })
         })
-
 }
 
 module.exports = createQuizMiddelware;

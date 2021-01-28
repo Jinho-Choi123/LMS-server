@@ -9,10 +9,11 @@ const checkUserIdMiddleware = (req, res, next) => {
     const userid = req.query.userId;
 
     if (!token) {
-        return res.status(403).json({
-            success: false,
-            msg: "not logged in"
-        })
+        // return res.status(403).json({
+        //     success: false,
+        //     msg: "not logged in"
+        // })
+        return res.status(403).render('accessDenied');
     }
 
     const p = new Promise((resolve, reject) => {
@@ -26,29 +27,40 @@ const checkUserIdMiddleware = (req, res, next) => {
         User.findOne({userId: token.userId, isStudent: token.isStudent})
             .then((data) => {
                 console.log("hello" + data);
-                if (data === null) return res.status(403).json({
-                    success: false,
-                    msg: 'no such user'
-                })
+                if (data === null) {
+                //     return res.status(403).json({
+                //     success: false,
+                //     msg: 'no such user'
+                // })
+                //return res.status(403).render('accessDenied');
+                return res.redirect('http://15.164.247.107:3000');
+            }
                 else {
                     console.log(data.userId)
                     if(data.userId === userid) next();
-                    else return res.status(403).json({
-                        success: false,
-                        msg: 'no such user'
-                    })
+                    else {
+                    //     return res.status(403).json({
+                    //     success: false,
+                    //     msg: 'no such user'
+                    // })
+                    //return res.status(403).render('accessDenied');
+                    return res.redirect('http://15.164.247.107:3000');
+                }
                 }
             })
             .catch((err) => {
-                throw err;
+                return res.redirect('http://15.164.247.107:3000');
+                //return res.status(403).render('accessDenied');
             })
     }
 
     const onError = (err) => {
-        res.status(403).json({
-            success: false,
-            msg: err.message
-        })
+        // res.status(403).json({
+        //     success: false,
+        //     msg: err.message
+        // })
+        //return res.status(403).render('accessDenied');
+        return res.redirect('http://15.164.247.107:3000');
     }
 
     p

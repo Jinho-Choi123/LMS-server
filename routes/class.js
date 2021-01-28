@@ -60,7 +60,7 @@ router.post('/notice/modify', checkUser, checkInClass, checkIsProf, modifyNotice
 
 router.get('/notice/load', checkUser, checkInClass, loadNoticeMiddleware);
 
-router.get('/info',checkUser, checkInClass,classInfoMiddleware);
+router.get('/info', classInfoMiddleware);
 
 router.post('/quiz/create', checkUser, checkInClass, checkIsProf, createQuizMiddleware);
 

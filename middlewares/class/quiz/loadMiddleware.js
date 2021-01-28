@@ -6,9 +6,9 @@ const loadMiddleware = (req, res, next) => {
     Class.findOne({classId: classid}).select("quizes")
         .then((data) => {
             console.log(data.quizes);
-            res.json({
-                quizes: data.quizes
-            })
+            res.json(
+                {quizes: data.quizes}
+            )
         })
         .catch((err) => {
             res.send(err.message);
