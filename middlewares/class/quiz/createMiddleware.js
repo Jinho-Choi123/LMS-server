@@ -46,13 +46,14 @@ const createQuizMiddelware = (req, res, next) => {
                 msg: "create quiz success",
                 success: true
             })
-        .catch((err) => {
-            res.status(403).json({
-                msg: err.message,
-                success: false
-            })
-        })
         
+        
+})
+.catch((err) => {
+    res.status(403).json({
+        msg: err.message,
+        success: false
+    })
 })
 }
 
