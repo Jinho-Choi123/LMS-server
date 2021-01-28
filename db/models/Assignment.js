@@ -17,8 +17,8 @@ const assignmentSchema = new mongoose.Schema({
     submitStatus: { type: [submitSchema] },
     instruction: { type: String, required: true },
     notStarted:{ type: String},
-    inProgress:{ type: String },
-    finished:{ type: String }
+    inProgress:{ type: String},
+    finished:{ type: String}
 })
 
 module.exports = mongoose.model('Assignment', assignmentSchema);

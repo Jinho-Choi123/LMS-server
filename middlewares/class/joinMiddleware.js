@@ -9,7 +9,7 @@ const verify = (password, hash) => {
 }
 
 const joinMiddleware = (req, res, next) => {
-    const userid = req.body.userId;
+    const userid = req.query.userId;
     const joinpassword = req.body.joinPassword;
     const classname = req.body.className;
 

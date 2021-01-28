@@ -10,6 +10,7 @@ const verify = (password, hash) => {
 
 const loginMiddleware = (req, res, next) => {
     const userid = req.body.userId;
+    console.log(userid)
     const userpassword = req.body.userPassword;
    
 

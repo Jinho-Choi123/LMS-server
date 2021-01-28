@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const Class = require('../../db/models/Class')
 
 const classInfoMiddleware = (req, res, next) => {
-    const classId = req.body.classId
+    const classId = req.query.classId
     
     Class.findOne({classId:classId},function(err, data){
         if(err) throw err;

@@ -13,7 +13,7 @@ const lectureContentSchema = new mongoose.Schema({
     fileName: { type: String, required: true }
 })
 
-const quizScema = new mongoose.Schema({
+const quizSchema = new mongoose.Schema({
     quizName: { type: String, required: true },
     quizUrl: { type: String, required: true },
     openTime: { type: Date, required: true },
@@ -30,8 +30,8 @@ const classSchema = new mongoose.Schema({
     lectureDates: { type: [Date] },
     notices: { type: [noticeSchema] },
     lectureContents: { type: [lectureContentSchema] },
-    quizContents : {type:[quizScema]},
-    assignments: { type: [String] } // store array of assignment ids
+    assignments: { type: [String] }, // store array of assignment ids
+    quizes: {type: [quizSchema]}
 })
 
 module.exports = mongoose.model('Lecturecontent', lectureContentSchema);

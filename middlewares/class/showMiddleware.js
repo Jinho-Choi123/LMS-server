@@ -1,18 +1,8 @@
 const User = require('../../db/models/User');
-const crypto = require('crypto');
-const dotenv = require('dotenv');
 const Class = require('../../db/models/Class')
 
 const showMiddleware = (req, res, next) => {
-    //console.log("req", req.body)
-    const isStudent = req.body.isStudent;
-    const userId = req.body.userId
-
-    const resolve = (classesInfo) =>{
-        return new Promise((resolve,reject) =>{
-            resolve(classesInfo);
-        })
-    }
+    const userId = req.query.userId
 
     const findClass = (classes) =>{
         return new Promise((resolve, reject) =>{
