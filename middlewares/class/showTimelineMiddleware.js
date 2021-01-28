@@ -94,9 +94,11 @@ const showTimelineMiddleware = (req, res, next) => {
             console.log("aaaaaaaaaaaaaaaaaaaaaaa")
             //console.log(data)
             const timeline = data.assignments;
-            console.log("timeline", timeline)
+            console.log("timeline",timeline)
+            const sortedTimeline = quickSort(timeline, 0, timeline.length - 1)
+            console.log("sorted",sortedTimeline);
             res.json({
-                timeline: quickSort(timeline, 0, timeline.length - 1)
+                timeline: sortedTimeline
             })
         }
     })
