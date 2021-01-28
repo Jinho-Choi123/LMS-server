@@ -5,7 +5,7 @@ const submitSchema = new mongoose.Schema({
     fileName: { type: String, required: true },
     lastSubmitTime: { type: Date, required: true },
     storePath: { type: String, required: true },
-    storeName: { type: String, required: true }
+    storeName: { type: String, required: true },
 })
 
 const assignmentSchema = new mongoose.Schema({
@@ -15,7 +15,10 @@ const assignmentSchema = new mongoose.Schema({
     endTime: { type: Date, required: true },
     submitPath: { type: String, required: true },
     submitStatus: { type: [submitSchema] },
-    instruction: { type: String, required: true }
+    instruction: { type: String, required: true },
+    notStarted:{ type: String},
+    inProgress:{ type: String},
+    finished:{ type: String}
 })
 
 module.exports = mongoose.model('Assignment', assignmentSchema);

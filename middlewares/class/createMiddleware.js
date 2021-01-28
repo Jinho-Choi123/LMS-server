@@ -4,7 +4,8 @@ const dotenv = require('dotenv');
 const User = require('../../db/models/User')
 
 const createMiddleware = (req, res, next) => {
-    const instructor = req.query.userId;
+    //console.log(req)
+    const instructor = req.body.userId;
     console.log("instructor1",instructor)
     const makeid = (length) => {
         var result = '';
@@ -23,6 +24,7 @@ const createMiddleware = (req, res, next) => {
     console.log(lecturedate)
 
 
+
     Class.findOne({ className: classname }, (err, data) => {
         if (err) throw err;
         if (data != null) { return res.json({ msg: "className already exists", success: false }); } else {
@@ -35,8 +37,9 @@ const createMiddleware = (req, res, next) => {
                     student: [],
                     joinPassword: joinpassword,
                     lectureDates: lecturedate,
-                    notices: [],
+                    notices: []
                 })
+
                 class_.save()
                     .then(() => {
                         User.updateOne({ userId: instructor }, { $push: { lectureIn: classid } })

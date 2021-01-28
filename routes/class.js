@@ -27,9 +27,17 @@ const deleteNoticeMiddleware = require('../middlewares/class/notice/deleteMiddle
 const modifyNoticeMiddleware = require('../middlewares/class/notice/modifyMiddleware');
 const loadNoticeMiddleware = require('../middlewares/class/notice/loadMiddleware');
 const classInfoMiddleware = require('../middlewares/class/classInfoMiddleware');
+const showTimelineMiddleware = require('../middlewares/class/showTimelineMiddleware');
+const updateProgressMiddleware = require('../middlewares/class/updateProgressMiddleware')
 const createQuizMiddleware = require('../middlewares/class/quiz/createMiddleware');
 const deleteQuizMiddleware = require('../middlewares/class/quiz/deleteMiddleware');
 const loadQuizMiddleware = require('../middlewares/class/quiz/loadMiddleware');
+
+router.post('/get',showClassesMiddleware);
+
+router.post('/updateprogress',updateProgressMiddleware);
+
+router.post('/timeline', showTimelineMiddleware);
 
 router.post('/create', checkUser, checkIsProf, createMiddleware);
 
