@@ -49,8 +49,8 @@ const loginMiddleware = (req, res, next) => {
     }
 
     const respond = ({isstudent, token}) => {
-        //console.log("check1",isstudent)
-        //console.log("check2",token)
+        console.log("check1",isstudent)
+        console.log("check2",token)
         return res.json({
             msg: "login success",
             success: true,
