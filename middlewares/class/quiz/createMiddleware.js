@@ -33,6 +33,10 @@ const createQuizMiddelware = (req, res, next) => {
 
     Class.updateOne({classId: classid}, {$push: {quizes: quiz}})
         .then((data) => {
+            User.updateMany({isStudent:true, lectureIn:{$all:classid}},{ $push: {quizes:{quizId:quizid,quizName:quizname,progress:"0",quizUrl:quizurl, endTime:endtime} }},(err,data)=>{
+                if(err) console.log("err",err);
+                else console.log("updated quiz",data);
+            })
             res.json({
                 msg: "create quiz success",
                 success: true

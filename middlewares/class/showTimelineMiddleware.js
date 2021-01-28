@@ -86,12 +86,19 @@ const showTimelineMiddleware = (req, res, next) => {
         else {
             console.log("aaaaaaaaaaaaaaaaaaaaaaa")
             //console.log(data)
-            const timeline = data.assignments;
-            console.log("timeline",timeline)
-            const sortedTimeline = quickSort(timeline, 0, timeline.length - 1)
-            console.log("sorted",sortedTimeline);
+            const assignments = data.assignments;
+            const quizes = data.quizes;
+            const everytask = assignments.concat(quizes)
+            console.log("assignments",data.assignments)
+            console.log(quickSort(assignments, 0, assignments.length - 1))
+            // const sortedAssignments = quickSort(assignments, 0, assignments.length - 1)
+            // const sortedQuizes = quickSort(quizes, 0, quizes.length - 1)
+            // const sortAll = quickSort(everytask, 0, everytask.length - 1)
+            //console.log("sorted",sortedTimeline);
             res.json({
-                timeline: sortedTimeline
+                assignments:quickSort(assignments, 0, assignments.length - 1),
+                quizes:quickSort(quizes, 0, quizes.length - 1),
+                everytask: quickSort(everytask, 0, everytask.length - 1)
             })
         }
     })
