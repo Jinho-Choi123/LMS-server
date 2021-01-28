@@ -1,27 +1,29 @@
 const User = require('../../db/models/User');
+const crypto = require('crypto');
+const dotenv = require('dotenv');
 const Class = require('../../db/models/Class')
 
 const showMiddleware = (req, res, next) => {
+    //console.log("req", req.body)
+    const isStudent = req.query.isStudent;
     const userId = req.query.userId
+
+    const resolve = (classesInfo) =>{
+        return new Promise((resolve,reject) =>{
+            resolve(classesInfo);
+        })
+    }
 
     const findClass = (classes) =>{
         return new Promise((resolve, reject) =>{
             var classesInfo = [];
-            classes.forEach(element =>{
-                //console.log(element)
-                var profId;
-                var className;
-                Class.findOne({classId:element},function(err,data){
-                    if(err) throw err;
-                    else{
-                        profId = data.instructor
-                        className = data.className
-                        //console.log(className)
-                        classesInfo.push({className:data.className, instructor:profId, classId: data.classId})
-                    }
-                })
+            Class.find({classId:{$in:classes}},(err,data)=>{
+                if(err) throw err;
+                else{
+                    resolve(data)
+                }
             })
-            setTimeout(()=>{resolve(classesInfo)},1000)
+           
         })
     }
 
@@ -29,7 +31,8 @@ const showMiddleware = (req, res, next) => {
         return new Promise((resolve, reject) =>{
             User.findOne({ userId: userId }, (err, data) => {
                 if (err) throw err;
-                const classes = data.lectureIn;
+                //console.log("data",data)
+                const classes = data.lectureIn
                 resolve(classes)
             })
         })

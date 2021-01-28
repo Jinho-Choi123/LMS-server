@@ -1,5 +1,6 @@
 const Class = require('../../../db/models/Class');
 const Assignment = require('../../../db/models/Assignment');
+const User = require('../../../db/models/User');
 
 const createMiddleware = (req, res, next) => {
     const assignmentname = req.body.assignmentName;
@@ -32,11 +33,18 @@ const createMiddleware = (req, res, next) => {
         submitStatus: [],
         instruction: instruction
     })
+
+    
     Class.updateOne({ classId: classid }, { $push: { assignments: assignmentid } })
         .then((data) => {
             console.log(data);
             assignment.save()
                 .then((data) => {
+                    User.updateMany({isStudent:true, lectureIn:{$all:classid}},{ $push: {assignments:{assignmentId:assignmentid, progress:"0", assignmentName:assignmentname, endTime:endtime} }},(err,data)=>{
+                        // if(err) throw err;
+                        //console.log("updated",data)
+                    })
+                    console.log("assignmentname",assignmentname)
                     res.json({
                         msg: "Add Assignment success",
                         success: true
