@@ -5,8 +5,8 @@ const Class = require('../../db/models/Class')
 
 const showMiddleware = (req, res, next) => {
     //console.log("req", req.body)
-    const isStudent = req.body.isStudent;
-    const userId = req.body.userId
+    const isStudent = req.query.isStudent;
+    const userId = req.query.userId
 
     const resolve = (classesInfo) =>{
         return new Promise((resolve,reject) =>{

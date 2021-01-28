@@ -20,6 +20,7 @@ const assignmentUpload = require('../middlewares/class/assignment/assignmentUplo
 const deleteAssignmentMiddleware = require('../middlewares/class/assignment/deleteMiddleware');
 const showClassesMiddleware = require('../middlewares/class/showMiddleware');
 const loadAssignmentMiddleware = require('../middlewares/class/assignment/loadMiddleware');
+const loadallAssignmentMiddleware = require('../middlewares/class/assignment/loadallMiddleware');
 const downloadAssignmentMiddleware = require('../middlewares/class/assignment/downloadMiddleware');
 const createNoticeMiddleware = require('../middlewares/class/notice/createMiddleware');
 const deleteNoticeMiddleware = require('../middlewares/class/notice/deleteMiddleware');
@@ -31,8 +32,6 @@ const updateProgressMiddleware = require('../middlewares/class/updateProgressMid
 const createQuizMiddleware = require('../middlewares/class/quiz/createMiddleware');
 const deleteQuizMiddleware = require('../middlewares/class/quiz/deleteMiddleware');
 const loadQuizMiddleware = require('../middlewares/class/quiz/loadMiddleware');
-
-router.post('/get',showClassesMiddleware);
 
 router.post('/updateprogress',updateProgressMiddleware);
 
@@ -61,6 +60,10 @@ router.get('/assignment/download', checkUser, checkInClass, downloadAssignmentMi
 router.get('/get', checkUser, showClassesMiddleware);
 
 router.post('/notice/create', checkUser, checkInClass, checkIsProf, createNoticeMiddleware);
+
+router.get('/assignment/loadall', loadallAssignmentMiddleware);
+
+router.get('/assignment/download', downloadAssignmentMiddleware);
 
 router.post('/notice/delete', checkUser, checkInClass, checkIsProf, deleteNoticeMiddleware);
 
