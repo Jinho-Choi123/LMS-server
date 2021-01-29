@@ -5,6 +5,7 @@ const userAssignmentSchema = new mongoose.Schema({
     assignmentId:{ type: String, required: true },
     assignmentName:{ type: String, required: true },
     progress:{type:String, required:true},
+    openTime:{ type: Date },
     endTime: { type: Date, required: true }
 })
 
